@@ -15,12 +15,12 @@ class Jokebot:
 
         self.run_jokebot()
 
-
-    def tell_joke(self,prompt, punchline):
+    #tells joke when given prompt and punchline
+    def tell_joke(self, prompt, punchline):
             print(prompt)
             time.sleep(2)
             print(punchline)
-
+    #reads user input
     def read_input(self):
         user_input = input()
         if user_input == "next":
@@ -31,6 +31,7 @@ class Jokebot:
             print('Please type either "next" or "quit"!')
             return self.read_input()
 
+    #reads csv file and creates joke_list
     def read_csv(self,csv_file):
         joke_list = []
         with open(os.path.dirname(os.path.abspath(__file__)) + "/" + csv_file) as f:
@@ -39,6 +40,7 @@ class Jokebot:
                 joke_list.append(line)
         return joke_list
 
+    #makes jokebot tell jokes
     def run_jokebot(self):
         joke_spitter = iter(self.joke_list)
         print("hello, I'm jokebot!")
@@ -50,6 +52,7 @@ class Jokebot:
             except:
                 print("sorry! out of jokes")
 
+    #filters and stores reddit jokes in joke_list
     def use_reddit(self):
         r = requests.get("https://www.reddit.com/r/dadjokes.json", headers = {'User-agent': 'your bot 0.1'})
         data = r.json()
@@ -61,9 +64,11 @@ class Jokebot:
                 jokes.append([prompt, punchline])
         return jokes
 
+    #use_reddit helper function - returns whether a prompt is valid or not
     def valid_question(self, prompt):
         lower = prompt.lower()
         return lower.startswith("what") or lower.startswith("how") or lower.startswith("why")
+
 if __name__ == "__main__":
     
     inputs = sys.argv
