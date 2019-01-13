@@ -3,7 +3,6 @@ import csv
 import sys
 import os
 import requests
-import json
 
 class Jokebot:
 
