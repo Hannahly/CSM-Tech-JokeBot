@@ -19,6 +19,7 @@ class Jokebot:
             print(prompt)
             time.sleep(2)
             print(punchline)
+
     #reads user input
     def read_input(self):
         user_input = input()
@@ -33,17 +34,22 @@ class Jokebot:
     #reads csv file and creates joke_list
     def read_csv(self,csv_file):
         joke_list = []
-        with open(os.path.dirname(os.path.abspath(__file__)) + "/" + csv_file) as f:
-            reader = csv.reader(f)
-            for line in reader:
-                joke_list.append(line)
-        return joke_list
+        try:
+            with open(os.path.dirname(os.path.abspath(__file__)) + "/" + csv_file) as f:
+                reader = csv.reader(f)
+                for line in reader:
+                    joke_list.append(line)
+            return joke_list
+        except FileNotFoundError:
+            print("The given file wasn't found. Using reddit jokes instead!")
+            return self.use_reddit()
 
     #makes jokebot tell jokes
     def run_jokebot(self):
-        joke_spitter = iter(self.joke_list)
         print("hello, I'm jokebot!")
+        joke_spitter = iter(self.joke_list)
         print("Type 'next' to hear a joke :-)")
+
         while self.read_input():
             try:
                 joke = next(joke_spitter)
